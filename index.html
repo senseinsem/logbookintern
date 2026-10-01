@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#536878">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Internship Logbook</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icons/icon.svg">
+<link rel="apple-touch-icon" href="assets/icons/icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">Internship Logbook</div>
+  <nav id="nav" aria-label="Main navigation">
+    <button data-go="dashboard"><i aria-hidden="true">⌂</i><span>Dashboard</span></button>
+    <button data-go="logbook"><i aria-hidden="true">▣</i><span>Logbook</span></button>
+    <button data-go="add" class="addbtn"><i aria-hidden="true">＋</i><span>Add Log</span></button>
+    <button data-go="calendar"><i aria-hidden="true">▦</i><span>Calendar</span></button>
+    <button data-go="stats" class="desk"><i aria-hidden="true">▤</i><span>Statistics</span></button>
+    <button data-go="settings"><i aria-hidden="true">⚙</i><span>Settings</span></button>
+  </nav>
+</header>
+<main id="main">
+  <section id="v-dashboard" class="view" aria-labelledby="h-dash"><h2 id="h-dash" class="sr">Dashboard</h2><div id="dashBody"></div></section>
+
+  <section id="v-logbook" class="view" aria-labelledby="h-log" hidden>
+    <h2 id="h-log">Logbook</h2>
+    <label class="sr" for="search">Search logbook</label>
+    <input id="search" type="search" placeholder="🔍 Search logbook..." autocomplete="off">
+    <div class="chips scroll" id="filters" role="group" aria-label="Filters"></div>
+    <div id="logList"></div>
+  </section>
+
+  <section id="v-add" class="view" aria-labelledby="h-add" hidden>
+    <h2 id="h-add">Add Daily Log</h2>
+    <form id="logForm" novalidate>
+      <div class="card">
+        <label for="fDate">Date</label><input type="date" id="fDate" required>
+        <div class="row2"><div><label for="fStart">Start time</label><input type="time" id="fStart"></div><div><label for="fEnd">End time</label><input type="time" id="fEnd"></div></div>
+        <label for="fDept">Department</label><input type="text" id="fDept">
+      </div>
+      <div class="card">
+        <label for="fTasks">Tasks / Activities</label><textarea id="fTasks" rows="4" placeholder="Describe the tasks you completed today..."></textarea>
+        <label for="fProcess">Work Process</label><textarea id="fProcess" rows="3" placeholder="How was the work performed?"></textarea>
+        <fieldset><legend>Software / Tools Used</legend><div class="chips wrap" id="toolChips"></div>
+          <div class="row2 tight"><label class="sr" for="customTool">Custom tool</label><input type="text" id="customTool" placeholder="Add custom tool"><button type="button" class="btn ghost" id="addTool">Add</button></div></fieldset>
+      </div>
+      <div class="card">
+        <label for="fProblems">Problems / Challenges</label><textarea id="fProblems" rows="3"></textarea>
+        <label for="fSolution">Solution / Action Taken</label><textarea id="fSolution" rows="3"></textarea>
+        <label for="fLearning">Learning / Reflection</label><textarea id="fLearning" rows="3"></textarea>
+        <label for="fOutput">Output / Result</label><textarea id="fOutput" rows="3"></textarea>
+        <label for="fRemarks">Supervisor Remarks</label><textarea id="fRemarks" rows="2"></textarea>
+        <label for="fVerif">Verification Status</label><select id="fVerif"><option value="pending">Pending</option><option value="verified">Verified</option></select>
+      </div>
+      <div class="card">
+        <h3>Work Evidence / Photos</h3>
+        <div class="drop" id="drop"><div class="big" aria-hidden="true">📷</div><strong>Add Work Evidence</strong><p>Take Photo or Choose From Gallery</p>
+          <div class="row2"><button type="button" class="btn" id="btnCam">📷 Camera</button><button type="button" class="btn ghost" id="btnGal">🖼 Gallery</button></div></div>
+        <input type="file" id="inCam" accept="image/*" capture="environment" hidden>
+        <input type="file" id="inGal" accept="image/*" multiple hidden>
+        <div id="evidence" class="grid"></div>
+      </div>
+      <div class="actions"><button type="button" class="btn ghost" id="cancelForm">Cancel</button><button type="submit" class="btn" id="saveBtn">Save Entry</button></div>
+    </form>
+  </section>
+
+  <section id="v-calendar" class="view" aria-labelledby="h-cal" hidden>
+    <h2 id="h-cal">Calendar</h2>
+    <div class="card"><div class="calhead"><button class="btn ghost sm" id="calPrev" aria-label="Previous month">‹</button><strong id="calTitle"></strong><button class="btn ghost sm" id="calNext" aria-label="Next month">›</button></div><div id="calGrid" class="calgrid"></div></div>
+    <h3 id="calDayTitle"></h3><div id="calDay"></div>
+  </section>
+
+  <section id="v-stats" class="view" aria-labelledby="h-st" hidden><h2 id="h-st">Statistics</h2><div id="statBody"></div></section>
+
+  <section id="v-settings" class="view" aria-labelledby="h-set" hidden>
+    <h2 id="h-set">Settings</h2>
+    <form id="profileForm" class="card"><h3>Profile</h3>
+      <label for="sName">Student Name</label><input type="text" id="sName">
+      <label for="sId">Student ID</label><input type="text" id="sId">
+      <label for="sUni">University</label><input type="text" id="sUni">
+      <label for="sProg">Programme</label><input type="text" id="sProg">
+      <label for="sOrg">Organisation</label><input type="text" id="sOrg">
+      <label for="sDept">Department</label><input type="text" id="sDept">
+      <div class="row2"><div><label for="sStart">Internship Start</label><input type="date" id="sStart"></div><div><label for="sEnd">Internship End</label><input type="date" id="sEnd"></div></div>
+      <button class="btn" type="submit">Save Profile</button></form>
+    <div class="card"><h3>Appearance</h3><label for="sTheme">Theme</label><select id="sTheme"><option value="system">System Default</option><option value="light">Light Mode</option><option value="dark">Dark Mode</option></select></div>
+    <div class="card"><h3>Data</h3><div class="stack">
+      <button class="btn" id="expJson">Export JSON Backup</button>
+      <button class="btn ghost" id="impJson">Import JSON Backup</button><input type="file" id="inImp" accept="application/json,.json" hidden>
+      <button class="btn ghost" id="expCsv">Export CSV</button>
+      <button class="btn ghost" id="printAll">Print Logbook / Save as PDF</button>
+      <button class="btn ghost" id="clrSample">Clear Sample Data</button>
+      <button class="btn danger" id="clrAll">Clear All Data</button></div></div>
+    <div class="card"><h3>Privacy</h3><p>Your internship logbook and uploaded photos are stored locally on this device.</p><p>No logbook data or photos are sent to an external server.</p></div>
+  </section>
+</main>
+<div id="printArea" aria-hidden="true"></div>
+<div id="modal" class="modal" hidden role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<div id="viewer" class="viewer" hidden role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="vclose" id="vClose" aria-label="Close">×</button><img id="vImg" alt=""><div class="vcount" id="vCount"></div><p id="vCap"></p>
+  <button class="vnav l" id="vPrev" aria-label="Previous image">‹</button><button class="vnav r" id="vNext" aria-label="Next image">›</button></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="script.js"></script>
+</body>
+</html>
